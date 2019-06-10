@@ -10,7 +10,8 @@ export class ArtistApiProvider {
 
   private httpOptions = {
     headers : new HttpHeaders({
-      "content-type": "application/js"
+      "content-type": "application/js",
+      "Access-Control-Allow-Origin": "http://localhost:8100",
     }),
     params:{
       "apikey" : "e46c26542d3e03831d000e3866d46b34",

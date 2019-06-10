@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, Platform, LoadingController, Loading } from 'ionic-angular';
 import SpotifyWebApi from 'spotify-web-api-js';
 import { Storage } from '@ionic/storage';
+import { ArtistPage } from '../artist/artist'
  
 declare var cordova: any;
  
@@ -19,6 +20,7 @@ export class HomePage {
 
 
   constructor(public navCtrl: NavController, private storage: Storage, private plt: Platform, private loadingCtrl: LoadingController) {
+
     this.spotifyApi = new SpotifyWebApi();
  
     this.plt.ready().then(() => {
@@ -29,14 +31,18 @@ export class HomePage {
       });
     });
   }
+
+  onGoToArtist() {
+    this.navCtrl.push(ArtistPage);
+  }
  
   authWithSpotify(showLoading = false) {
     const config = {
       clientId: "173c8b2ee7b04277970f71108a9b368e",
-      redirectUrl: "http://bibli-music/callback/",
+      redirectUrl: "http://bibli-music://callback",
       scopes: ["streaming", "playlist-read-private", "user-read-email", "user-read-private"],
-      tokenExchangeUrl: "oauth-token-api-dev-exchangeCode",
-      tokenRefreshUrl: "oauth-token-api-dev-refreshToken",
+      tokenExchangeUrl: "https://yofoghu3og.execute-api.eu-central-1.amazonaws.com/dev/exchange",
+      tokenRefreshUrl: "https://yofoghu3og.execute-api.eu-central-1.amazonaws.com/dev/refresh",
     };
 
     if (showLoading) {
@@ -54,9 +60,10 @@ export class HomePage {
         this.loggedIn = true;
         this.spotifyApi.setAccessToken(accessToken);
         this.getUserPlaylists();
-        this.storage.set('logged_in', true);
+        this.storage.set('logged_in', true);     
       }, err => {
         console.error(err);
+        console.log(JSON.stringify(err));
         if (this.loading) {
           this.loading.dismiss();
         }

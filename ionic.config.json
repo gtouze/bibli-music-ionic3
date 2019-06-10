@@ -3,5 +3,11 @@
   "integrations": {
     "cordova": {}
   },
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "https://accounts.spotify.com/api/token"
+    }
+  ],
   "type": "ionic-angular"
 }
